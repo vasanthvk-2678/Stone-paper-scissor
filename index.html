@@ -1,0 +1,215 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Stone Paper Scissor</title>
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<header>
+			<h1>Stone Paper Scissor</h1>
+		</header>
+		<div class="score-board">
+			<div id="user-label" class="badge">user</div>
+			<div id="computer-label" class="badge">comp</div>
+			<span id="user-score">0</span>:<span id="computer-score">0</span>
+		</div>
+		<div class="result">
+			<p>Paper covers rock..you win!</p>
+		</div>
+		
+		<div class="choices">
+			<div class="choice" id="r">
+				<img src="no.jpg" alt="">
+			</div>
+			<div class="choice" id="p">
+				<img src="with5.jpg" alt="">
+			</div>
+			<div class="choice" id="s">
+				<img src="handwith2.jpg" alt="">
+			</div>
+		</div>
+		<p id="action-message"> Make your move </p>
+		
+
+
+		<style>
+			.{
+				margin:0;
+				padding:0;
+				box-sizing:border-box;
+			}
+			body{
+				background-color:#24272E;
+			}
+			header{
+				background:white;
+				padding:20px;
+			}
+			header > h1{
+				color:gray;
+				text-align:center;
+				font-family:"Merriweather";
+			}
+			.score-board{
+				margin:20px auto;
+				border:3px solid white;
+				border-radius:4px;
+				text-align:center;
+				width:200px;
+				color:white;
+				font-size:46px;
+				padding:15px 20px;
+				font-family:"Merriweather";
+				position:relative;
+			}
+			.badge{
+				background:#E25840;
+				color:white:
+				font-size:10px;
+				padding:2px,10px;
+				font-family:"Merriweather";
+			}
+			#user-label{
+				position:absolute;
+				top:15px;
+				left:-34px;
+			}
+			#computer-label{
+				position:absolute;
+				top:15px;
+				left:195px;
+			}
+			.result{
+				font-size:40px;
+				color:white;
+			}
+			.result > p{
+				text-align:center;
+			}
+			.choices{
+				margin-top:50px;
+				margin-bottom:0;
+				text-align:center;
+				size:50px;
+			}
+			.choice{
+				border:4px solid white;
+				border-radius:0%;
+				display:inline-block;
+				padding:10px;
+				margin;0px,20px;
+			}
+			.choice:hover{
+				cursor:pointer;
+				background:gray;
+			}
+			#action-message{
+				text-align:center;
+				color:white;
+				font-family:"Merriweather";
+				font-weight:bold;
+				font-size:40px;
+			}
+			.green-glow{
+				border:5px solid #4dcc7d;
+				box-shadow: 0 0 25px #31b43a;
+			}
+			.red-glow{
+				border:5px solid red;
+				box-shadow: 0 0 25px red;		
+			}
+			.gray-glow{
+				border:5px solid #464647;
+				box-shadow: 0 0 25px #25292b;	
+			}
+		
+		</style>
+<script>
+let userscore=0;
+let computerscore=0;
+const userscore_span=document.getElementById("user-score");
+const computerscore_span=document.getElementById("computer-score");
+const scoreboard_div=document.querySelector(".score-board");
+const result_p=document.querySelector(".result > p");
+const stone_div=document.getElementById("r");
+const paper_div=document.getElementById("p");
+const scissor_div=document.getElementById("s");
+
+function getcomputerchoice(){
+	const choices=["r","p","s"];
+	const randomnumber=Math.floor(Math.random()*3);
+	return choices[randomnumber];
+}
+function converttoword(letter)
+{
+	if(letter == "r") return "stone";
+	if(letter == "p") return "paper";
+	return "scissor";
+}
+function win(userchoice,computerchoice){
+	userscore++;
+	userscore_span.innerHTML=userscore;
+	computerscore_span.innerHTML=computerscore;
+	const smalluserword = "user".fontsize(3).sub();
+	const smallcomputerword="comp".fontsize(3).sub();
+	result_p.innerHTML=`${converttoword(userchoice)}${smalluserword} beats ${converttoword(computerchoice)}${smallcomputerword}.you win!.`;
+	document.getElementById(userchoice).classList.add('green-glow');
+	setTimeout(function(){document.getElementById(userchoice).classList.remove('green-glow')},300);
+	}
+function lose(userchoice,computerchoice){
+	computerscore++;
+	userscore_span.innerHTML=userscore;
+	computerscore_span.innerHTML=computerscore;
+	const smalluserword="user".fontsize(3).sub();
+	const smallcomputerword="comp".fontsize(3).sub();
+	result_p.innerHTML=`${converttoword(userchoice)}${smalluserword} loses to ${converttoword(computerchoice)}${smallcomputerword}.you lost!.`;
+	document.getElementById(userchoice).classList.add('red-glow');
+	setTimeout(function(){document.getElementById(userchoice).classList.remove('red-glow')},300);
+
+}
+function draw(userchoice,computerchoice){
+	const smalluserword="user".fontsize(3).sub();
+	const smallcomputerword="comp".fontsize(3).sub();
+	result_p.innerHTML=`${converttoword(userchoice)}${smalluserword} equals ${converttoword(computerchoice)}${smallcomputerword}. it's a draw!.`;
+	document.getElementById(userchoice).classList.add('gray-glow');
+	setTimeout(function(){document.getElementById(userchoice).classList.remove('gray-glow')},300);
+
+	
+}
+function game(userchoice){
+	const computerchoice=getcomputerchoice();
+	switch(userchoice+computerchoice)
+	{
+		case "rs":
+		case "pr":
+		case "sp":
+			win(userchoice,computerchoice);
+			break;
+		case "rp":
+		case "ps":
+		case "sr":
+			lose(userchoice,computerchoice);
+			break;
+		case "rr":
+		case "pp":
+		case "ss":
+			draw(userchoice,computerchoice);
+			break;
+	}
+}
+function main()
+{
+	stone_div.addEventListener("click",function(){
+		game("r");
+	})
+	paper_div.addEventListener("click",function(){
+		game("p");
+	})
+	scissor_div.addEventListener("click",function(){
+		game("s");
+	})
+}
+main();
+</script>
+</body>	
+</html>
